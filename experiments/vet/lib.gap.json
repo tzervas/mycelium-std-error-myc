@@ -1,0 +1,279 @@
+{
+  "source": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+  "emitted_items": [
+    "co-include:RefusalRecord,SubstitutionRecord"
+  ],
+  "gaps": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 1,
+      "col": 1,
+      "category": "InnerAttr",
+      "rust_construct": "InnerAttr",
+      "snippet": "# ! [forbid (unsafe_code)]",
+      "reason": "crate/file-level inner attributes (#![...]) are not transpiled (no nodule-header equivalent for these Rust-specific directives)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 78,
+      "col": 1,
+      "category": "ModuleDecl",
+      "rust_construct": "ModuleDecl",
+      "snippet": "pub mod combinators ;",
+      "reason": "external `mod foo;` declaration — file-linkage, not translatable library surface (Mycelium's nodule-per-file model makes the module tree implicit in the file layout; the sibling file transpiles as its own nodule). Excluded from the expressible-fraction denominator, recorded not dropped",
+      "item_name": "combinators"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 79,
+      "col": 1,
+      "category": "ModuleDecl",
+      "rust_construct": "ModuleDecl",
+      "snippet": "pub mod guarantee_matrix ;",
+      "reason": "external `mod foo;` declaration — file-linkage, not translatable library surface (Mycelium's nodule-per-file model makes the module tree implicit in the file layout; the sibling file transpiles as its own nodule). Excluded from the expressible-fraction denominator, recorded not dropped",
+      "item_name": "guarantee_matrix"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 84,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use mycelium_core :: PolicyRef ;",
+      "reason": "`use mycelium_core::PolicyRef` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 85,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use mycelium_std_core :: GuaranteeStrength ;",
+      "reason": "`use mycelium_std_core::GuaranteeStrength` — `mycelium_std_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 93,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use mycelium_std_recover :: { handle_classified , Outcome , RecoverOutcome , Resolution } ;",
+      "reason": "`use mycelium_std_recover::handle_classified` — `mycelium_std_recover` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_std_recover::Outcome` — `mycelium_std_recover` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_std_recover::RecoverOutcome` — `mycelium_std_recover` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_std_recover::Resolution` — `mycelium_std_recover` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::and_then` — `and_then` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::expect` — `expect` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::filter` — `filter` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::flatten` — `flatten` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::inspect` — `inspect` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::inspect_err` — `inspect_err` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::map` — `map` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::map_err` — `map_err` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::ok` — `ok` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::ok_or` — `ok_or` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::ok_or_else` — `ok_or_else` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::or_else` — `or_else` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::transpose` — `transpose` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap` — `unwrap` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_err` — `unwrap_err` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_or` — `unwrap_or` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_or_else` — `unwrap_or_else` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_or_else_option` — `unwrap_or_else_option` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_or_option` — `unwrap_or_option` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::zip` — `zip` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 125,
+      "col": 1,
+      "category": "TestItem",
+      "rust_construct": "TestItem",
+      "snippet": "# [cfg (test)] mod tests { # ! [doc = \" Integration tests over the crate root surface.\"] # ! [doc = \"\"] # ! [doc = \" The guarantee matrix data tests live in [`crate::guarantee_matrix`];\"] # ! [doc = \" the per-combinator behavioural tests live in [`crate::combinators`].\"] # ! [doc = \" This module tests the *crate-level contract*: the structural\"] # ! [doc = \" never-silent property, the guarantee matrix completeness, and the\"] # ! [doc = \" EXPLAIN records.\"] use crate :: guarantee_matrix :: { Explainable , Fallibility , MATRIX } ; # [doc = \" The guarantee matrix has no \\\"Dropped\\\" guarantee variant in any row.\"] # [doc = \" This is the structural I1 bound expressed over the matrix data.\"] # [doc = \" Guard: adding a \\\"Dropped\\\" entry to any row makes this fail.\"] # [test] fn matrix_has_no_dropped_outcome_in_any_row () { for row in MATRIX { assert ! (! row . error_set . to_lowercase () . contains (\"drop\") || row . error_set . contains (\"never a drop\") , \"row {:?} must not permit a dropped outcome (I1 / C1): {:?}\" , row . op , row . error_set) ; } } # [doc = \" The guarantee matrix has exactly one `Inherited` tag: the recover bridge.\"] # [doc = \" Guard: adding an Inherited tag to a non-bridge op makes this fail.\"] # [test] fn only_recover_bridge_has_inherited_tag () { let inherited : Vec < & str > = MATRIX . iter () . filter (| r | r . guarantee . starts_with (\"Inherited\")) . map (| r | r . op) . collect () ; assert_eq ! (inherited . len () , 1 , \"exactly one row should have an Inherited tag (the recover bridge)\") ; assert ! (inherited [0] . starts_with (\"recover\") , \"the Inherited tag must be on the recover bridge\") ; } # [doc = \" All total ops (Fallibility::Total) have no error set.\"] # [doc = \" Guard: adding error_set to a total op makes this fail.\"] # [test] fn total_ops_have_empty_error_set () { for row in MATRIX { if row . fallibility == Fallibility :: Total { assert ! (row . error_set . is_empty () , \"total op {:?} must have empty error_set\" , row . op) ; } } } # [doc = \" The `Declared` tag is used only for the unwrap_or family (downgrade rule — VR-5).\"] # [doc = \" Guard: any other op claiming `Declared` makes this fail.\"] # [test] fn declared_tag_only_on_default_recovery_ops () { for row in MATRIX { if row . guarantee == \"Declared\" { assert ! (matches ! (row . op , \"unwrap_or\" | \"unwrap_or_else\" | \"unwrap_or_option\" | \"unwrap_or_else_option\") , \"only unwrap_or* should be Declared; found {:?}\" , row . op) ; } } } # [doc = \" Partial ops must have non-empty error_set and DiagnosticRefusal EXPLAIN.\"] # [doc = \" Guard: a partial op without a named refusal makes this fail (C1 / C3).\"] # [test] fn partial_ops_are_explicit_and_explainable () { for row in MATRIX { if row . fallibility == Fallibility :: Partial { assert ! (! row . error_set . is_empty () , \"partial op {:?} must name its refusal (C1)\" , row . op) ; assert_eq ! (row . explainable , Explainable :: DiagnosticRefusal , \"partial op {:?} must be DiagnosticRefusal for EXPLAIN (C3)\" , row . op) ; } } } # [doc = \" The EXPLAIN column: every op that transforms/approximates/converts has a non-`NotApplicable`\"] # [doc = \" entry. This confirms the C3 obligation is not silently waived.\"] # [doc = \" Guard: zeroing out the explainable field for any non-pure op makes this fail.\"] # [test] fn explain_column_is_set_for_all_non_pure_ops () { let non_na : Vec < & str > = MATRIX . iter () . filter (| r | r . explainable != Explainable :: NotApplicable) . map (| r | r . op) . collect () ; assert ! (non_na . len () >= 7 , \"expected at least 7 ops with non-NotApplicable EXPLAIN; got {}: {:?}\" , non_na . len () , non_na) ; } }",
+      "reason": "#[cfg(test)] item — out of scope for this PoC's transpilation surface (excluded from the expressible-fraction denominator, but recorded, never silently skipped)",
+      "item_name": "tests"
+    }
+  ],
+  "total_top_level_items": 7
+}

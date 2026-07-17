@@ -1,0 +1,677 @@
+{
+  "gaps": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 30,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" The refusal record emitted when a named partial accessor (`unwrap`/`expect`/`unwrap_err`)\"] # [doc = \" encounters the wrong variant. Carries the diagnostic as a message (C3 / spec §5/C3).\"] # [doc = \"\"] # [doc = \" The *mechanism* (abort vs escalate vs `std.diag` record) is co-designed with M-510/M-520\"] # [doc = \" (spec §7-Q3). This structure fixes the C3 obligation: the refusal is explicit and\"] # [doc = \" carries information. In this Rust-first implementation we panic with this record's\"] # [doc = \" message; the final form waits on `diag`/`recover` (FLAG Q3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct RefusalRecord { # [doc = \" The op name (`\\\"unwrap\\\"`, `\\\"expect\\\"`, or `\\\"unwrap_err\\\"`).\"] pub op : & 'static str , # [doc = \" A caller-supplied reason (empty string for `unwrap`).\"] pub reason : String , # [doc = \" The variant that was actually present (for diagnostics).\"] pub actual_variant : & 'static str , }",
+      "reason": "struct `RefusalRecord` named field(s) `op, reason, actual_variant` emitted positionally as `RefusalRecord(Bytes, Bytes, Bytes)` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "RefusalRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 30,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The refusal record emitted when a named partial accessor (`unwrap`/`expect`/`unwrap_err`)\"] # [doc = \" encounters the wrong variant. Carries the diagnostic as a message (C3 / spec §5/C3).\"] # [doc = \"\"] # [doc = \" The *mechanism* (abort vs escalate vs `std.diag` record) is co-designed with M-510/M-520\"] # [doc = \" (spec §7-Q3). This structure fixes the C3 obligation: the refusal is explicit and\"] # [doc = \" carries information. In this Rust-first implementation we panic with this record's\"] # [doc = \" message; the final form waits on `diag`/`recover` (FLAG Q3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct RefusalRecord { # [doc = \" The op name (`\\\"unwrap\\\"`, `\\\"expect\\\"`, or `\\\"unwrap_err\\\"`).\"] pub op : & 'static str , # [doc = \" A caller-supplied reason (empty string for `unwrap`).\"] pub reason : String , # [doc = \" The variant that was actually present (for diagnostics).\"] pub actual_variant : & 'static str , }",
+      "reason": "struct `RefusalRecord` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "RefusalRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 30,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The refusal record emitted when a named partial accessor (`unwrap`/`expect`/`unwrap_err`)\"] # [doc = \" encounters the wrong variant. Carries the diagnostic as a message (C3 / spec §5/C3).\"] # [doc = \"\"] # [doc = \" The *mechanism* (abort vs escalate vs `std.diag` record) is co-designed with M-510/M-520\"] # [doc = \" (spec §7-Q3). This structure fixes the C3 obligation: the refusal is explicit and\"] # [doc = \" carries information. In this Rust-first implementation we panic with this record's\"] # [doc = \" message; the final form waits on `diag`/`recover` (FLAG Q3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct RefusalRecord { # [doc = \" The op name (`\\\"unwrap\\\"`, `\\\"expect\\\"`, or `\\\"unwrap_err\\\"`).\"] pub op : & 'static str , # [doc = \" A caller-supplied reason (empty string for `unwrap`).\"] pub reason : String , # [doc = \" The variant that was actually present (for diagnostics).\"] pub actual_variant : & 'static str , }",
+      "reason": "struct `RefusalRecord` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "RefusalRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 47,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl core :: fmt :: Display for RefusalRecord { fn fmt (& self , f : & mut core :: fmt :: Formatter < '_ >) -> core :: fmt :: Result { if self . reason . is_empty () { write ! (f , \"{}: called on {} variant (explicit named partial — never a silent default)\" , self . op , self . actual_variant) } else { write ! (f , \"{}: {} (called on {} variant — explicit named partial)\" , self . op , self . reason , self . actual_variant) } } }",
+      "reason": "trait-impl of non-prelude trait `Display` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "RefusalRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 65,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" The substitution record for `unwrap_or` / `unwrap_or_else`: records that a default was\"] # [doc = \" substituted and that its guarantee is `Declared` (RFC-0014 I2 / VR-5). This is the C3\"] # [doc = \" EXPLAIN artifact for the `Declared` rows in the guarantee matrix.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct SubstitutionRecord { # [doc = \" The op name (`\\\"unwrap_or\\\"` or `\\\"unwrap_or_else\\\"`).\"] pub op : & 'static str , # [doc = \" Guarantee tag — always `\\\"Declared\\\"` (a substituted default is asserted, not proven).\"] pub guarantee_tag : & 'static str , }",
+      "reason": "struct `SubstitutionRecord` named field(s) `op, guarantee_tag` emitted positionally as `SubstitutionRecord(Bytes, Bytes)` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 65,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The substitution record for `unwrap_or` / `unwrap_or_else`: records that a default was\"] # [doc = \" substituted and that its guarantee is `Declared` (RFC-0014 I2 / VR-5). This is the C3\"] # [doc = \" EXPLAIN artifact for the `Declared` rows in the guarantee matrix.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct SubstitutionRecord { # [doc = \" The op name (`\\\"unwrap_or\\\"` or `\\\"unwrap_or_else\\\"`).\"] pub op : & 'static str , # [doc = \" Guarantee tag — always `\\\"Declared\\\"` (a substituted default is asserted, not proven).\"] pub guarantee_tag : & 'static str , }",
+      "reason": "struct `SubstitutionRecord` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 65,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The substitution record for `unwrap_or` / `unwrap_or_else`: records that a default was\"] # [doc = \" substituted and that its guarantee is `Declared` (RFC-0014 I2 / VR-5). This is the C3\"] # [doc = \" EXPLAIN artifact for the `Declared` rows in the guarantee matrix.\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct SubstitutionRecord { # [doc = \" The op name (`\\\"unwrap_or\\\"` or `\\\"unwrap_or_else\\\"`).\"] pub op : & 'static str , # [doc = \" Guarantee tag — always `\\\"Declared\\\"` (a substituted default is asserted, not proven).\"] pub guarantee_tag : & 'static str , }",
+      "reason": "struct `SubstitutionRecord` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 78,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Map the `Ok`-side value; `Err` passes through unchanged (error preserved in the sum).\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): `Err` is not touched; it survives in the output sum.\"] # [doc = \" # Effects: none\"] # [inline] pub fn map < T , U , E , F > (r : Result < T , E > , f : F) -> Result < U , E > where F : FnOnce (T) -> U , { r . map (f) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "map"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 91,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Map the `Err`-side value; `Ok` passes through unchanged.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): `Ok` is not touched; `Err` is transformed (preserved in sum).\"] # [doc = \" # Effects: none\"] # [inline] pub fn map_err < T , E , F , G > (r : Result < T , E > , f : G) -> Result < T , F > where G : FnOnce (E) -> F , { r . map_err (f) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "map_err"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 104,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Monadic bind: apply `f` to the `Ok` value; `Err` short-circuits and **propagates**\"] # [doc = \" (never dropped).\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): on `Err`, the error is propagated to the output — no drop.\"] # [doc = \" # Effects: none (closure's effects are transparent to this combinator — C6)\"] # [inline] pub fn and_then < T , U , E , F > (r : Result < T , E > , f : F) -> Result < U , E > where F : FnOnce (T) -> Result < U , E > , { r . and_then (f) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "and_then"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 118,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Explicit recovery hook: apply `f` to the `Err` value; `Ok` passes through.\"] # [doc = \" `f` must return a `Result` — recover or re-propagate, never a drop.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): `f` must yield a `Result`; there is no way to drop the error.\"] # [doc = \" # Effects: none (closure's effects are transparent — C6)\"] # [inline] pub fn or_else < T , E , F , G > (r : Result < T , E > , f : G) -> Result < T , F > where G : FnOnce (E) -> Result < T , F > , { r . or_else (f) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "or_else"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 132,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Filter an `Option`: `Some(x)` where `predicate(x)` is `false` becomes `None`.\"] # [doc = \" This is a **typed transition** (named absence), not a silent loss.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): `Some→None` via filter is a typed/explicit transition, not a drop.\"] # [doc = \" # Effects: none (closure's effects are transparent — C6)\"] # [inline] pub fn filter < T , F > (opt : Option < T > , predicate : F) -> Option < T > where F : FnOnce (& T) -> bool , { opt . filter (predicate) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "filter"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 146,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Peek the `Ok` side with an effectful closure; the value and sum shape are **unchanged**.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): `Err` propagates unchanged; this op is observational only.\"] # [doc = \" # Effects: none from the combinator itself (closure may declare its own — C6)\"] # [inline] pub fn inspect < T , E , F > (r : Result < T , E > , f : F) -> Result < T , E > where F : FnOnce (& T) , { r . inspect (f) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "inspect"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 159,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Peek the `Err` side with an effectful closure; the value and propagation are **unchanged**.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): error propagation is not affected; this op is observational only.\"] # [doc = \" # Effects: none from the combinator itself (closure may declare its own — C6)\"] # [inline] pub fn inspect_err < T , E , F > (r : Result < T , E > , f : F) -> Result < T , E > where F : FnOnce (& E) , { r . inspect_err (f) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "inspect_err"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 174,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Convert `Option<T>` to `Result<T, E>` by naming the `None` case: `None → Err(err)`.\"] # [doc = \" The absence is made explicit — never a silent drop.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): `None` is explicitly named as `Err(err)`.\"] # [doc = \" # Effects: none\"] # [inline] pub fn ok_or < T , E > (opt : Option < T > , err : E) -> Result < T , E > { opt . ok_or (err) }",
+      "reason": "method call `.ok_or(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__ok_or` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `ok_or(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "ok_or"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 185,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Convert `Option<T>` to `Result<T, E>` with a lazily-computed error value.\"] # [doc = \" `None → Err(f())`.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): `None` is explicitly named as `Err(f())`.\"] # [doc = \" # Effects: none from combinator itself (closure may declare its own — C6)\"] # [inline] pub fn ok_or_else < T , E , F > (opt : Option < T > , f : F) -> Result < T , E > where F : FnOnce () -> E , { opt . ok_or_else (f) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "ok_or_else"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 199,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Convert `Result<T, E>` to `Option<T>`: `Ok(t) → Some(t)`, `Err(e) → None`.\"] # [doc = \"\"] # [doc = \" **FLAGGED LOSSY CONVERSION (spec §7-Q2 / C3).** This is the one combinator in\"] # [doc = \" `std.error` that discards `ε` (`Err → None`). It is C1-honest only because it is\"] # [doc = \" an **explicitly-named, EXPLAIN-able lossy conversion**, never an unflagged drop.\"] # [doc = \" The spec FLAGs (Q2) whether it should require a name that makes the loss unmissable\"] # [doc = \" (e.g. `ok_discarding_err`) — that decision awaits RFC-0016 §8-Q3 ratification.\"] # [doc = \"\"] # [doc = \" The [`SubstitutionRecord`] is not returned here (the conversion is not a *default*\"] # [doc = \" substitution) but the EXPLAIN obligation is discharged in the guarantee matrix row.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): the loss is explicit, flagged, and EXPLAIN-noted.\"] # [doc = \" # Effects: none\"] # [inline] pub fn ok < T , E > (r : Result < T , E >) -> Option < T > { r . ok () }",
+      "reason": "method call `.ok(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__ok` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `ok(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "ok"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 218,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Transpose `Option<Result<T, E>>` to `Result<Option<T>, E>`.\"] # [doc = \" An `Err` inside the `Option` propagates out; no error is lost.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): `Err` inside the `Some` propagates to the outer `Result`.\"] # [doc = \" # Effects: none\"] # [inline] pub fn transpose < T , E > (opt : Option < Result < T , E > >) -> Result < Option < T > , E > { opt . transpose () }",
+      "reason": "method call `.transpose(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__transpose` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `transpose(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "transpose"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 229,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Flatten `Result<Result<T, E>, E>` to `Result<T, E>`.\"] # [doc = \" The inner `Err` propagates to the outer; no wrapping is discarded silently.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): inner `Err` propagates; no error is dropped.\"] # [doc = \" # Effects: none\"] # [inline] pub fn flatten < T , E > (r : Result < Result < T , E > , E >) -> Result < T , E > { r . flatten () }",
+      "reason": "method call `.flatten(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__flatten` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `flatten(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "flatten"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 240,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Zip two `Option`s: both must be `Some`; either `None` short-circuits to `None`.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (pure combinator — RFC-0016 C2)\"] # [doc = \" # Never-silent (I1/C1): either absent value yields `None` explicitly; nothing is lost.\"] # [doc = \" # Effects: none\"] # [inline] pub fn zip < A , B > (a : Option < A > , b : Option < B >) -> Option < (A , B) > { a . zip (b) }",
+      "reason": "method call `.zip(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__zip` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `zip(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "zip"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 252,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Recover an `Err`/`None` with an explicitly-supplied default value.\"] # [doc = \" Returns a `SubstitutionRecord` as the C3 EXPLAIN artifact.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Declared` — the substituted default is *asserted*, not proven (I2/VR-5).\"] # [doc = \" # Never-silent (I1/C1): the recovery is explicit; the caller supplies the default.\"] # [doc = \" # Effects: none\"] # [doc = \"\"] # [doc = \" The returned `SubstitutionRecord` records the honest `Declared` tag for EXPLAIN (C3).\"] pub fn unwrap_or < T , E > (r : Result < T , E > , default : T) -> (T , SubstitutionRecord) { let record = SubstitutionRecord { op : \"unwrap_or\" , guarantee_tag : \"Declared\" , } ; (r . unwrap_or (default) , record) }",
+      "reason": "method call `.unwrap_or(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__unwrap_or` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `unwrap_or(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "unwrap_or"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 268,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Recover an `Err`/`None` with a computed default from a closure.\"] # [doc = \" Returns a `SubstitutionRecord` as the C3 EXPLAIN artifact.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Declared` — the substituted default is *asserted*, not proven (I2/VR-5).\"] # [doc = \" # Never-silent (I1/C1): the recovery is explicit; the caller supplies the closure.\"] # [doc = \" # Effects: none from this combinator (closure may declare its own — C6)\"] # [doc = \"\"] # [doc = \" The returned `SubstitutionRecord` records the honest `Declared` tag for EXPLAIN (C3).\"] pub fn unwrap_or_else < T , E , F > (r : Result < T , E > , f : F) -> (T , SubstitutionRecord) where F : FnOnce (E) -> T , { let record = SubstitutionRecord { op : \"unwrap_or_else\" , guarantee_tag : \"Declared\" , } ; (r . unwrap_or_else (f) , record) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "unwrap_or_else"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 287,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Recover an `Option<T>` with an explicitly-supplied default value.\"] # [doc = \" Returns a `SubstitutionRecord` as the C3 EXPLAIN artifact.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Declared` — the substituted default is *asserted*, not proven (I2/VR-5).\"] # [doc = \" # Never-silent (I1/C1): the recovery is explicit; the caller supplies the default.\"] # [doc = \" # Effects: none\"] pub fn unwrap_or_option < T > (opt : Option < T > , default : T) -> (T , SubstitutionRecord) { let record = SubstitutionRecord { op : \"unwrap_or_option\" , guarantee_tag : \"Declared\" , } ; (opt . unwrap_or (default) , record) }",
+      "reason": "method call `.unwrap_or(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__unwrap_or` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `unwrap_or(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "unwrap_or_option"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 301,
+      "col": 1,
+      "category": "WhereClause",
+      "rust_construct": "WhereClause",
+      "snippet": "# [doc = \" Recover an `Option<T>` with a computed default from a closure.\"] # [doc = \" Returns a `SubstitutionRecord` as the C3 EXPLAIN artifact.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Declared` — the substituted default is *asserted*, not proven (I2/VR-5).\"] # [doc = \" # Never-silent (I1/C1): the recovery is explicit; the caller supplies the closure.\"] # [doc = \" # Effects: none from this combinator (closure may declare its own — C6)\"] pub fn unwrap_or_else_option < T , F > (opt : Option < T > , f : F) -> (T , SubstitutionRecord) where F : FnOnce () -> T , { let record = SubstitutionRecord { op : \"unwrap_or_else_option\" , guarantee_tag : \"Declared\" , } ; (opt . unwrap_or_else (f) , record) }",
+      "reason": "a `where` clause has no Mycelium equivalent",
+      "item_name": "unwrap_or_else_option"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 320,
+      "col": 1,
+      "category": "GenericBound",
+      "rust_construct": "GenericBound",
+      "snippet": "# [doc = \" Extract the `Ok` value.\"] # [doc = \"\"] # [doc = \" # EXPLICIT NAMED PARTIAL (spec §3 / C1)\"] # [doc = \" On `Err`, this **refuses loudly** (panics with a `RefusalRecord` message) and never\"] # [doc = \" returns a silent default. This is the \\\"I assert this is Ok\\\" op — the one place a\"] # [doc = \" computation can be intentionally stopped, and it does so audibly with a diagnostic.\"] # [doc = \"\"] # [doc = \" The final refusal *mechanism* (abort vs escalate vs `std.diag` record) is FLAG Q3\"] # [doc = \" in the spec; the guarantee — loud refusal, never silent — is fixed here.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (when it returns — the returned value is `Ok(t)`)\"] # [doc = \" # Effects: none (on the `Ok` path)\"] # [doc = \"\"] # [doc = \" # Panics\"] # [doc = \" Panics if `r` is `Err`, with a message encoding the `RefusalRecord`.\"] pub fn unwrap < T , E : core :: fmt :: Debug > (r : Result < T , E >) -> T { match r { Ok (t) => t , Err (e) => { let record = RefusalRecord { op : \"unwrap\" , reason : String :: new () , actual_variant : \"Err\" , } ; panic ! (\"{record}: {e:?}\") ; } } }",
+      "reason": "type parameter `E` carries a bound — type_params/fn generics are bare identifiers only in this grammar fragment",
+      "item_name": "unwrap"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 351,
+      "col": 1,
+      "category": "GenericBound",
+      "rust_construct": "GenericBound",
+      "snippet": "# [doc = \" Extract the `Ok` value with a caller-supplied reason for the expected state.\"] # [doc = \"\"] # [doc = \" # EXPLICIT NAMED PARTIAL (spec §3 / C1)\"] # [doc = \" On `Err`, **refuses loudly** with the caller-supplied `msg` in the diagnostic.\"] # [doc = \" Same guarantee as `unwrap` — explicit, named, never silent.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (when it returns)\"] # [doc = \" # Effects: none (on the `Ok` path)\"] # [doc = \"\"] # [doc = \" # Panics\"] # [doc = \" Panics if `r` is `Err`, with a message encoding the `RefusalRecord` + `msg`.\"] pub fn expect < T , E : core :: fmt :: Debug > (r : Result < T , E > , msg : & str) -> T { match r { Ok (t) => t , Err (e) => { let record = RefusalRecord { op : \"expect\" , reason : msg . to_owned () , actual_variant : \"Err\" , } ; panic ! (\"{record}: {e:?}\") ; } } }",
+      "reason": "type parameter `E` carries a bound — type_params/fn generics are bare identifiers only in this grammar fragment",
+      "item_name": "expect"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 377,
+      "col": 1,
+      "category": "GenericBound",
+      "rust_construct": "GenericBound",
+      "snippet": "# [doc = \" Extract the `Err` value: symmetric to `unwrap`.\"] # [doc = \"\"] # [doc = \" # EXPLICIT NAMED PARTIAL (spec §3 / C1)\"] # [doc = \" On `Ok`, **refuses loudly** with a diagnostic. The \\\"I assert this is Err\\\" op.\"] # [doc = \"\"] # [doc = \" # Guarantee: `Exact` (when it returns)\"] # [doc = \" # Effects: none (on the `Err` path)\"] # [doc = \"\"] # [doc = \" # Panics\"] # [doc = \" Panics if `r` is `Ok`, with a message encoding the `RefusalRecord`.\"] pub fn unwrap_err < T : core :: fmt :: Debug , E > (r : Result < T , E >) -> E { match r { Err (e) => e , Ok (t) => { let record = RefusalRecord { op : \"unwrap_err\" , reason : String :: new () , actual_variant : \"Ok\" , } ; panic ! (\"{record}: {t:?}\") ; } } }",
+      "reason": "type parameter `T` carries a bound — type_params/fn generics are bare identifiers only in this grammar fragment",
+      "item_name": "unwrap_err"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/combinators.rs",
+      "line": 421,
+      "col": 1,
+      "category": "TestItem",
+      "rust_construct": "TestItem",
+      "snippet": "# [cfg (test)] mod tests { use super :: * ; fn ok_42 () -> Result < i32 , & 'static str > { Ok (42) } fn err_oops () -> Result < i32 , & 'static str > { Err (\"oops\") } fn some_42 () -> Option < i32 > { Some (42) } fn none_i32 () -> Option < i32 > { None } # [doc = \" `map` applies f to Ok; Err passes through unchanged (I1 / C1).\"] # [doc = \" Guard: a map that drops Err would pass Ok but this test catches it.\"] # [test] fn map_transforms_ok_err_passes_through () { assert_eq ! (map (ok_42 () , | x | x * 2) , Ok (84)) ; assert_eq ! (map (err_oops () , | x : i32 | x * 2) , Err (\"oops\")) ; } # [doc = \" `map_err` applies f to Err; Ok passes through unchanged.\"] # [doc = \" Guard: a map_err that drops Ok would pass Err but this test catches it.\"] # [test] fn map_err_transforms_err_ok_passes_through () { assert_eq ! (map_err (ok_42 () , | e : & str | e . len ()) , Ok (42)) ; assert_eq ! (map_err (err_oops () , | e | e . len ()) , Err (4)) ; } # [doc = \" `and_then` propagates Err without calling f (never-silent: Err is not dropped).\"] # [doc = \" Guard: calling f on Err would yield a wrong result; this test uses a side effect\"] # [doc = \" to confirm f was not called.\"] # [test] fn and_then_short_circuits_on_err () { let called = core :: cell :: Cell :: new (false) ; let result = and_then (err_oops () , | _x : i32 | { called . set (true) ; Ok (0i32) }) ; assert_eq ! (result , Err (\"oops\") , \"Err must propagate\") ; assert ! (! called . get () , \"f must not be called on Err (short-circuit)\") ; } # [doc = \" `and_then` applies f to Ok.\"] # [test] fn and_then_applies_f_on_ok () { assert_eq ! (and_then (ok_42 () , | x | Ok ::< _ , & str > (x + 1)) , Ok (43)) ; } # [doc = \" `or_else` applies f to Err; Ok passes through.\"] # [test] fn or_else_applies_f_on_err_ok_passes_through () { assert_eq ! (or_else (err_oops () , | _e | Ok ::< i32 , i32 > (0)) , Ok (0)) ; assert_eq ! (or_else (ok_42 () , | _e : & str | Ok ::< _ , i32 > (0)) , Ok (42)) ; } # [doc = \" `filter` converts Some to None when predicate is false (typed transition, not drop).\"] # [doc = \" Guard: treating None as a dropped Some would fail a downstream use — no sentinel.\"] # [test] fn filter_typed_transition_some_to_none () { assert_eq ! (filter (some_42 () , |& x | x > 100) , None) ; assert_eq ! (filter (some_42 () , |& x | x > 0) , Some (42)) ; assert_eq ! (filter (none_i32 () , |& x | x > 0) , None) ; } # [doc = \" `inspect` peeks Ok without changing the sum.\"] # [test] fn inspect_peeks_ok_sum_unchanged () { let mut seen = None ; let r = inspect (ok_42 () , | & x | seen = Some (x)) ; assert_eq ! (r , Ok (42)) ; assert_eq ! (seen , Some (42)) ; } # [doc = \" `inspect_err` peeks Err without changing propagation.\"] # [test] fn inspect_err_peeks_err_propagation_unchanged () { let mut seen = None ; let r = inspect_err (err_oops () , | & e | seen = Some (e)) ; assert_eq ! (r , Err (\"oops\")) ; assert_eq ! (seen , Some (\"oops\")) ; } # [doc = \" `inspect` on Err does NOT call f (Err propagates unchanged).\"] # [test] fn inspect_on_err_does_not_call_f () { let called = core :: cell :: Cell :: new (false) ; let r = inspect (err_oops () , | _ | called . set (true)) ; assert_eq ! (r , Err (\"oops\")) ; assert ! (! called . get ()) ; } # [doc = \" `inspect_err` on Ok does NOT call f (Ok propagates unchanged).\"] # [test] fn inspect_err_on_ok_does_not_call_f () { let called = core :: cell :: Cell :: new (false) ; let r = inspect_err (ok_42 () , | _ : & & str | called . set (true)) ; assert_eq ! (r , Ok (42)) ; assert ! (! called . get ()) ; } # [doc = \" `ok_or` names None as Err explicitly (never-silent).\"] # [test] fn ok_or_names_none_as_err () { assert_eq ! (ok_or (some_42 () , \"missing\") , Ok (42)) ; assert_eq ! (ok_or (none_i32 () , \"missing\") , Err (\"missing\")) ; } # [doc = \" `ok_or_else` names None as Err with a lazy error.\"] # [test] fn ok_or_else_lazy_error_for_none () { let called = core :: cell :: Cell :: new (false) ; let r = ok_or_else (some_42 () , | | { called . set (true) ; \"missing\" }) ; assert_eq ! (r , Ok (42)) ; assert ! (! called . get () , \"f must not be called for Some\") ; let r2 = ok_or_else (none_i32 () , | | \"lazily-computed\") ; assert_eq ! (r2 , Err (\"lazily-computed\")) ; } # [doc = \" `ok` converts Ok(t) to Some(t) and Err to None.\"] # [doc = \" This is the one flagged lossy conversion (spec §7-Q2). Test confirms the conversion\"] # [doc = \" is explicit — the caller calls `ok` intentionally; there is no silent swallow.\"] # [test] fn ok_lossy_conversion_explicit () { assert_eq ! (ok (ok_42 ()) , Some (42)) ; assert_eq ! (ok (err_oops ()) , None) ; } # [doc = \" `transpose` lifts Err from inside Option to outside.\"] # [test] fn transpose_propagates_err () { let inner_err : Option < Result < i32 , & str > > = Some (Err (\"inner\")) ; assert_eq ! (transpose (inner_err) , Err (\"inner\")) ; assert_eq ! (transpose (Some (Ok ::< i32 , & str > (1))) , Ok (Some (1))) ; assert_eq ! (transpose (None ::< Result < i32 , & str >>) , Ok (None)) ; } # [doc = \" `flatten` propagates the inner Err.\"] # [test] fn flatten_propagates_inner_err () { let inner : Result < Result < i32 , & str > , & str > = Ok (Err (\"inner\")) ; assert_eq ! (flatten (inner) , Err (\"inner\")) ; assert_eq ! (flatten (Ok (Ok ::< i32 , & str > (7))) , Ok (7)) ; assert_eq ! (flatten (Err ::< Result < i32 , & str >, & str > (\"outer\")) , Err (\"outer\")) ; } # [doc = \" `zip` short-circuits to None when either is None.\"] # [test] fn zip_short_circuits_on_none () { assert_eq ! (zip (some_42 () , Some (\"hi\")) , Some ((42 , \"hi\"))) ; assert_eq ! (zip (none_i32 () , Some (\"hi\")) , None) ; assert_eq ! (zip (some_42 () , None ::<& str >) , None) ; } # [doc = \" `unwrap_or` recovers Err with an explicitly supplied default; records Declared tag.\"] # [test] fn unwrap_or_recovers_with_declared_tag () { let (val , record) = unwrap_or (ok_42 () , 0) ; assert_eq ! (val , 42 , \"Ok value must be returned\") ; assert_eq ! (record . guarantee_tag , \"Declared\") ; let (val2 , record2) = unwrap_or (err_oops () , 99) ; assert_eq ! (val2 , 99 , \"default must be returned for Err\") ; assert_eq ! (record2 . guarantee_tag , \"Declared\") ; assert_eq ! (record2 . op , \"unwrap_or\") ; } # [doc = \" `unwrap_or_else` recovers Err with a computed default; records Declared tag.\"] # [test] fn unwrap_or_else_recovers_with_declared_tag () { let (val , record) = unwrap_or_else (err_oops () , | _e | 99) ; assert_eq ! (val , 99) ; assert_eq ! (record . guarantee_tag , \"Declared\") ; assert_eq ! (record . op , \"unwrap_or_else\") ; } # [doc = \" The `Declared` tag is never `Exact` — downgrade is the rule (VR-5).\"] # [doc = \" Guard: changing guarantee_tag to \\\"Exact\\\" in the record makes this fail.\"] # [test] fn unwrap_or_tag_is_not_exact () { let (_ , record) = unwrap_or (err_oops () , 0) ; assert_ne ! (record . guarantee_tag , \"Exact\" , \"unwrap_or must not claim Exact — the default is Declared (VR-5/I2)\") ; } # [doc = \" `unwrap` on Ok returns the value.\"] # [test] fn unwrap_on_ok_returns_value () { assert_eq ! (unwrap (ok_42 ()) , 42) ; } # [doc = \" `unwrap` on Err panics (refuses loudly — never a silent default).\"] # [doc = \" Guard: returning a sentinel/default instead of panicking makes this fail.\"] # [test] # [should_panic (expected = \"unwrap\")] fn unwrap_on_err_refuses_loudly () { unwrap (err_oops ()) ; } # [doc = \" `expect` on Ok returns the value.\"] # [test] fn expect_on_ok_returns_value () { assert_eq ! (expect (ok_42 () , \"must be ok\") , 42) ; } # [doc = \" `expect` on Err panics with the caller-supplied message.\"] # [doc = \" Guard: a silent default would not panic with the caller message.\"] # [test] # [should_panic (expected = \"caller-reason\")] fn expect_on_err_refuses_loudly_with_msg () { expect (err_oops () , \"caller-reason\") ; } # [doc = \" `unwrap_err` on Err returns the error.\"] # [test] fn unwrap_err_on_err_returns_error () { assert_eq ! (unwrap_err (err_oops ()) , \"oops\") ; } # [doc = \" `unwrap_err` on Ok panics (refuses loudly — symmetric partial).\"] # [doc = \" Guard: returning a sentinel instead of panicking makes this fail.\"] # [test] # [should_panic (expected = \"unwrap_err\")] fn unwrap_err_on_ok_refuses_loudly () { unwrap_err (ok_42 ()) ; } # [doc = \" Property: `map` is the identity on `Err` — for all error shapes, Err passes through.\"] # [doc = \" This is the per-op \\\"never-silent\\\" property bound for `map` (spec §4).\"] # [test] fn property_map_never_drops_err () { for & e in & [\"a\" , \"b\" , \"long error\" , \"\" , \"oops\"] { let r : Result < i32 , & str > = Err (e) ; let out = map (r , | x | x * 100) ; assert_eq ! (out , Err (e) , \"map must preserve Err: {e:?}\") ; } } # [doc = \" Property: `map_err` is the identity on `Ok` — for all ok values, Ok passes through.\"] # [test] fn property_map_err_never_drops_ok () { for & v in & [0i32 , 1 , - 1 , i32 :: MAX , i32 :: MIN] { let r : Result < i32 , & str > = Ok (v) ; let out = map_err (r , | e : & str | e . len ()) ; assert_eq ! (out , Ok (v) , \"map_err must preserve Ok: {v}\") ; } } # [doc = \" Property: `and_then` propagates Err for all error values (never-silent bound).\"] # [test] fn property_and_then_propagates_all_errs () { for & e in & [\"e1\" , \"e2\" , \"error3\"] { let r : Result < i32 , & str > = Err (e) ; let out = and_then (r , | _ | Ok :: < i32 , & str > (999)) ; assert_eq ! (out , Err (e) , \"and_then must propagate Err: {e:?}\") ; } } # [doc = \" Property: `or_else` passes through Ok for all ok values.\"] # [test] fn property_or_else_passes_through_ok () { for & v in & [0i32 , 42 , - 99] { let r : Result < i32 , & str > = Ok (v) ; let out = or_else (r , | _ | Ok :: < _ , i32 > (0)) ; assert_eq ! (out , Ok (v) , \"or_else must pass through Ok: {v}\") ; } } # [doc = \" Property: `filter` typed transition — `filter(None, _)` is always None.\"] # [test] fn property_filter_none_is_always_none () { for pred_result in & [true , false] { let out = filter (none_i32 () , | _ | * pred_result) ; assert_eq ! (out , None , \"filter(None, _) must be None\") ; } } # [doc = \" Property: `ok_or` never returns Ok for None (naming the absence explicitly).\"] # [test] fn property_ok_or_names_none_as_err () { for & e in & [\"e1\" , \"e2\" , \"missing\"] { let out : Result < i32 , & str > = ok_or (none_i32 () , e) ; assert ! (out . is_err () , \"ok_or(None, e) must be Err for any e\") ; assert_eq ! (out . unwrap_err () , e) ; } } # [doc = \" Property: `unwrap_or` result for Err is exactly the supplied default (Declared).\"] # [test] fn property_unwrap_or_exact_default_for_err () { for & default in & [0i32 , 1 , 99 , - 1 , i32 :: MIN] { let r : Result < i32 , & str > = Err (\"e\") ; let (val , record) = unwrap_or (r , default) ; assert_eq ! (val , default , \"unwrap_or must return exactly the default for Err\") ; assert_eq ! (record . guarantee_tag , \"Declared\" , \"tag must be Declared (VR-5)\") ; } } # [doc = \" Property: `zip` always yields None when either input is None.\"] # [test] fn property_zip_none_absorbs () { for a in [some_42 () , none_i32 ()] { let out = zip (a , None :: < i32 >) ; assert_eq ! (out , None , \"zip with None must be None\") ; } } # [doc = \" Property: `transpose` preserves the Err inside Some.\"] # [test] fn property_transpose_preserves_inner_err () { for & e in & [\"e1\" , \"e2\" , \"err\"] { let inner : Option < Result < i32 , & str > > = Some (Err (e)) ; assert_eq ! (transpose (inner) , Err (e)) ; } } # [doc = \" Property: `flatten` propagates both inner and outer Errs.\"] # [test] fn property_flatten_propagates_all_errs () { let errs = [\"outer\" , \"inner\"] ; let inner : Result < Result < i32 , & str > , & str > = Ok (Err (errs [1])) ; assert_eq ! (flatten (inner) , Err (\"inner\")) ; let outer : Result < Result < i32 , & str > , & str > = Err (errs [0]) ; assert_eq ! (flatten (outer) , Err (\"outer\")) ; } # [doc = \" SubstitutionRecord carries the honest `Declared` tag.\"] # [test] fn substitution_record_carries_declared () { let r = SubstitutionRecord { op : \"unwrap_or\" , guarantee_tag : \"Declared\" , } ; assert_eq ! (r . guarantee_tag , \"Declared\") ; } # [doc = \" RefusalRecord Display includes op name (C3 diagnostic).\"] # [test] fn refusal_record_display_includes_op () { let r = RefusalRecord { op : \"expect\" , reason : \"should have been ok\" . to_owned () , actual_variant : \"Err\" , } ; let msg = r . to_string () ; assert ! (msg . contains (\"expect\") , \"display must include op name\") ; assert ! (msg . contains (\"should have been ok\") , \"display must include reason\") ; assert ! (msg . contains (\"Err\") , \"display must include actual variant\") ; } }",
+      "reason": "#[cfg(test)] item — out of scope for this PoC's transpilation surface (excluded from the expressible-fraction denominator, but recorded, never silently skipped)",
+      "item_name": "tests"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 34,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Fallibility classification for an exported op.\"] # [derive (Debug , Clone , Copy , PartialEq , Eq)] pub enum Fallibility { # [doc = \" The op is total: it always returns a value for all well-formed inputs (no panic /\"] # [doc = \" abort on the *normal* path). Note: `unwrap`/`expect`/`unwrap_err` are `Partial`\"] # [doc = \" (see below) — they are total-when-successful but abort on the wrong variant.\"] Total , # [doc = \" The op is partial: on the wrong variant it refuses loudly (abort + diagnostic),\"] # [doc = \" never a silent default. This is the explicitly-named partial accessor family.\"] Partial , # [doc = \" The op yields an explicit `Option`/`Result` (it is a combinator whose *output*\"] # [doc = \" is a sum — the caller must inspect it).\"] Combinatorial , }",
+      "reason": "enum `Fallibility` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Fallibility"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 34,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Fallibility classification for an exported op.\"] # [derive (Debug , Clone , Copy , PartialEq , Eq)] pub enum Fallibility { # [doc = \" The op is total: it always returns a value for all well-formed inputs (no panic /\"] # [doc = \" abort on the *normal* path). Note: `unwrap`/`expect`/`unwrap_err` are `Partial`\"] # [doc = \" (see below) — they are total-when-successful but abort on the wrong variant.\"] Total , # [doc = \" The op is partial: on the wrong variant it refuses loudly (abort + diagnostic),\"] # [doc = \" never a silent default. This is the explicitly-named partial accessor family.\"] Partial , # [doc = \" The op yields an explicit `Option`/`Result` (it is a combinator whose *output*\"] # [doc = \" is a sum — the caller must inspect it).\"] Combinatorial , }",
+      "reason": "enum `Fallibility` derive(Copy) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Fallibility"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 34,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Fallibility classification for an exported op.\"] # [derive (Debug , Clone , Copy , PartialEq , Eq)] pub enum Fallibility { # [doc = \" The op is total: it always returns a value for all well-formed inputs (no panic /\"] # [doc = \" abort on the *normal* path). Note: `unwrap`/`expect`/`unwrap_err` are `Partial`\"] # [doc = \" (see below) — they are total-when-successful but abort on the wrong variant.\"] Total , # [doc = \" The op is partial: on the wrong variant it refuses loudly (abort + diagnostic),\"] # [doc = \" never a silent default. This is the explicitly-named partial accessor family.\"] Partial , # [doc = \" The op yields an explicit `Option`/`Result` (it is a combinator whose *output*\"] # [doc = \" is a sum — the caller must inspect it).\"] Combinatorial , }",
+      "reason": "enum `Fallibility` derive(Eq): covered by co-occurring PartialEq → `fn eq_Fallibility` (product-row collision policy; DN-128 / ONESHOT C2) — not a second emission",
+      "item_name": "Fallibility"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 49,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Whether an op has a C3 EXPLAIN obligation (selects / converts / approximates).\"] # [derive (Debug , Clone , Copy , PartialEq , Eq)] pub enum Explainable { # [doc = \" The op has no selection/conversion/approximation; no EXPLAIN artifact needed.\"] NotApplicable , # [doc = \" The op has a flagged lossy conversion that must be EXPLAIN-noted (the `ok` op).\"] LossyConversion , # [doc = \" The op is inspectable: its outcome records the `PolicyRef` (the `recover` bridge).\"] PolicyRef , # [doc = \" The op elaborates to an inspectable `Match` node (the `?`-style propagation form).\"] MatchElaboration , # [doc = \" The op records a diagnostic refusal (partial accessors).\"] DiagnosticRefusal , # [doc = \" The substituted default is recorded (the `unwrap_or` family).\"] SubstitutedDefault , }",
+      "reason": "enum `Explainable` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Explainable"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 49,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Whether an op has a C3 EXPLAIN obligation (selects / converts / approximates).\"] # [derive (Debug , Clone , Copy , PartialEq , Eq)] pub enum Explainable { # [doc = \" The op has no selection/conversion/approximation; no EXPLAIN artifact needed.\"] NotApplicable , # [doc = \" The op has a flagged lossy conversion that must be EXPLAIN-noted (the `ok` op).\"] LossyConversion , # [doc = \" The op is inspectable: its outcome records the `PolicyRef` (the `recover` bridge).\"] PolicyRef , # [doc = \" The op elaborates to an inspectable `Match` node (the `?`-style propagation form).\"] MatchElaboration , # [doc = \" The op records a diagnostic refusal (partial accessors).\"] DiagnosticRefusal , # [doc = \" The substituted default is recorded (the `unwrap_or` family).\"] SubstitutedDefault , }",
+      "reason": "enum `Explainable` derive(Copy) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Explainable"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 49,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Whether an op has a C3 EXPLAIN obligation (selects / converts / approximates).\"] # [derive (Debug , Clone , Copy , PartialEq , Eq)] pub enum Explainable { # [doc = \" The op has no selection/conversion/approximation; no EXPLAIN artifact needed.\"] NotApplicable , # [doc = \" The op has a flagged lossy conversion that must be EXPLAIN-noted (the `ok` op).\"] LossyConversion , # [doc = \" The op is inspectable: its outcome records the `PolicyRef` (the `recover` bridge).\"] PolicyRef , # [doc = \" The op elaborates to an inspectable `Match` node (the `?`-style propagation form).\"] MatchElaboration , # [doc = \" The op records a diagnostic refusal (partial accessors).\"] DiagnosticRefusal , # [doc = \" The substituted default is recorded (the `unwrap_or` family).\"] SubstitutedDefault , }",
+      "reason": "enum `Explainable` derive(Eq): covered by co-occurring PartialEq → `fn eq_Explainable` (product-row collision policy; DN-128 / ONESHOT C2) — not a second emission",
+      "item_name": "Explainable"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 66,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" One row in the `std.error` guarantee matrix (RFC-0016 §4.5; spec §4).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct MatrixRow { # [doc = \" The exported operation name.\"] pub op : & 'static str , # [doc = \" Guarantee tag on `Exact ⊐ Proven ⊐ Empirical ⊐ Declared` (VR-5).\"] pub guarantee : & 'static str , # [doc = \" Whether the op is total, partial, or combinatorial.\"] pub fallibility : Fallibility , # [doc = \" The explicit error/none-case description (empty for total/combinatorial with no\"] # [doc = \" special outcome, non-empty for partial ops and the recover bridge).\"] pub error_set : & 'static str , # [doc = \" Declared effects (C6). \\\"none\\\" means no effects.\"] pub effects : & 'static str , # [doc = \" Whether the op has a C3 EXPLAIN obligation.\"] pub explainable : Explainable , # [doc = \" The \\\"never-silent\\\" property: how errors/nones are handled — propagated, transformed,\"] # [doc = \" recovered-explicitly, or refused-loudly. No \\\"silently dropped\\\" variant (I1/C1).\"] pub never_silent_property : & 'static str , }",
+      "reason": "struct `MatrixRow` named field(s) `op, guarantee, fallibility, error_set, effects, explainable, never_silent_property` emitted positionally as `MatrixRow(Bytes, Bytes, Fallibility, Bytes, Bytes, Explainable, Bytes)` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "MatrixRow"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 66,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" One row in the `std.error` guarantee matrix (RFC-0016 §4.5; spec §4).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct MatrixRow { # [doc = \" The exported operation name.\"] pub op : & 'static str , # [doc = \" Guarantee tag on `Exact ⊐ Proven ⊐ Empirical ⊐ Declared` (VR-5).\"] pub guarantee : & 'static str , # [doc = \" Whether the op is total, partial, or combinatorial.\"] pub fallibility : Fallibility , # [doc = \" The explicit error/none-case description (empty for total/combinatorial with no\"] # [doc = \" special outcome, non-empty for partial ops and the recover bridge).\"] pub error_set : & 'static str , # [doc = \" Declared effects (C6). \\\"none\\\" means no effects.\"] pub effects : & 'static str , # [doc = \" Whether the op has a C3 EXPLAIN obligation.\"] pub explainable : Explainable , # [doc = \" The \\\"never-silent\\\" property: how errors/nones are handled — propagated, transformed,\"] # [doc = \" recovered-explicitly, or refused-loudly. No \\\"silently dropped\\\" variant (I1/C1).\"] pub never_silent_property : & 'static str , }",
+      "reason": "struct `MatrixRow` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "MatrixRow"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 66,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" One row in the `std.error` guarantee matrix (RFC-0016 §4.5; spec §4).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct MatrixRow { # [doc = \" The exported operation name.\"] pub op : & 'static str , # [doc = \" Guarantee tag on `Exact ⊐ Proven ⊐ Empirical ⊐ Declared` (VR-5).\"] pub guarantee : & 'static str , # [doc = \" Whether the op is total, partial, or combinatorial.\"] pub fallibility : Fallibility , # [doc = \" The explicit error/none-case description (empty for total/combinatorial with no\"] # [doc = \" special outcome, non-empty for partial ops and the recover bridge).\"] pub error_set : & 'static str , # [doc = \" Declared effects (C6). \\\"none\\\" means no effects.\"] pub effects : & 'static str , # [doc = \" Whether the op has a C3 EXPLAIN obligation.\"] pub explainable : Explainable , # [doc = \" The \\\"never-silent\\\" property: how errors/nones are handled — propagated, transformed,\"] # [doc = \" recovered-explicitly, or refused-loudly. No \\\"silently dropped\\\" variant (I1/C1).\"] pub never_silent_property : & 'static str , }",
+      "reason": "struct `MatrixRow` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "MatrixRow"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 87,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" The `std.error` guarantee matrix. One row per exported op, encoded as data and asserted\"] # [doc = \" in `tests` — never prose-only (RFC-0016 §4.5; spec §4).\"] # [doc = \"\"] # [doc = \" **No row permits a silent drop of an error** (RFC-0014 I1 / RFC-0016 C1). Every row\"] # [doc = \" either transforms the sum (the error survives in the result), re-propagates it,\"] # [doc = \" recovers it explicitly with an honest tag, or — for the partial accessors — refuses\"] # [doc = \" loudly.\"] pub const MATRIX : & [MatrixRow] = & [MatrixRow { op : \"map\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"Err passes through unchanged (error preserved in sum)\" , } , MatrixRow { op : \"map_err\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"Ok passes through; Err transformed (error preserved in sum)\" , } , MatrixRow { op : \"and_then\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"Err short-circuits and propagates (never dropped)\" , } , MatrixRow { op : \"or_else\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"explicit recovery hook; must yield a Result (recover or re-propagate, never a drop)\" , } , MatrixRow { op : \"filter\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"Some->None is a typed transition (named absence), not a silent loss\" , } , MatrixRow { op : \"inspect\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none (closure may declare its own — transparent to combinator per C6)\" , explainable : Explainable :: NotApplicable , never_silent_property : \"peek Ok; value and sum shape unchanged\" , } , MatrixRow { op : \"inspect_err\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none (closure may declare its own — transparent to combinator per C6)\" , explainable : Explainable :: NotApplicable , never_silent_property : \"peek Err; value and propagation unchanged\" , } , MatrixRow { op : \"ok_or\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"None becomes Err(e): names the absence explicitly (never a drop)\" , } , MatrixRow { op : \"ok_or_else\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none (closure may declare its own — transparent to combinator per C6)\" , explainable : Explainable :: NotApplicable , never_silent_property : \"None becomes Err(e): names the absence explicitly (never a drop)\" , } , MatrixRow { op : \"ok\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: LossyConversion , never_silent_property : \"Err->None: FLAGGED lossy conversion (EXPLAIN-able, spec Q2); not an unflagged drop\" , } , MatrixRow { op : \"transpose\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"Err inside Option propagates out; no error is dropped\" , } , MatrixRow { op : \"flatten\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"inner Err propagates to outer; no wrapping discarded\" , } , MatrixRow { op : \"zip\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: NotApplicable , never_silent_property : \"either None short-circuits to None; no value silently dropped\" , } , MatrixRow { op : \"unwrap_or\" , guarantee : \"Declared\" , fallibility : Fallibility :: Total , error_set : \"\" , effects : \"none\" , explainable : Explainable :: SubstitutedDefault , never_silent_property : \"recovers with explicitly-supplied default (Declared tag per I2/VR-5); never upgrades\" , } , MatrixRow { op : \"unwrap_or_else\" , guarantee : \"Declared\" , fallibility : Fallibility :: Total , error_set : \"\" , effects : \"none (closure may declare its own)\" , explainable : Explainable :: SubstitutedDefault , never_silent_property : \"recovers with computed default (Declared tag per I2/VR-5); honest tag from closure\" , } , MatrixRow { op : \"unwrap_or_option\" , guarantee : \"Declared\" , fallibility : Fallibility :: Total , error_set : \"\" , effects : \"none\" , explainable : Explainable :: SubstitutedDefault , never_silent_property : \"Option variant: recovers None with explicitly-supplied default (Declared per I2/VR-5)\" , } , MatrixRow { op : \"unwrap_or_else_option\" , guarantee : \"Declared\" , fallibility : Fallibility :: Total , error_set : \"\" , effects : \"none (closure may declare its own)\" , explainable : Explainable :: SubstitutedDefault , never_silent_property : \"Option variant: recovers None with computed default (Declared per I2/VR-5)\" , } , MatrixRow { op : \"propagate (?-style)\" , guarantee : \"Exact\" , fallibility : Fallibility :: Combinatorial , error_set : \"\" , effects : \"none\" , explainable : Explainable :: MatchElaboration , never_silent_property : \"propagates Err/None to caller (the default posture); elaborates to Match (RFC-0014 §4.3)\" , } , MatrixRow { op : \"unwrap\" , guarantee : \"Exact\" , fallibility : Fallibility :: Partial , error_set : \"on Err: refuses loudly (abort + diagnostic); never a silent default\" , effects : \"none\" , explainable : Explainable :: DiagnosticRefusal , never_silent_property : \"EXPLICIT named partial; refuses loudly on wrong variant (never silent)\" , } , MatrixRow { op : \"expect\" , guarantee : \"Exact\" , fallibility : Fallibility :: Partial , error_set : \"on Err: refuses loudly with caller-supplied msg; never a silent default\" , effects : \"none\" , explainable : Explainable :: DiagnosticRefusal , never_silent_property : \"EXPLICIT named partial with caller reason; refuses loudly on wrong variant\" , } , MatrixRow { op : \"unwrap_err\" , guarantee : \"Exact\" , fallibility : Fallibility :: Partial , error_set : \"on Ok: refuses loudly (abort + diagnostic); never a silent default\" , effects : \"none\" , explainable : Explainable :: DiagnosticRefusal , never_silent_property : \"symmetric partial: EXPLICIT named partial; refuses loudly on Ok variant\" , } , MatrixRow { op : \"recover (RFC-0014 bridge — re-exported from std.recover, M-520)\" , guarantee : \"Inherited-from-policy (Declared floor per I2/VR-5; see spec §7-Q1)\" , fallibility : Fallibility :: Combinatorial , error_set : \"Recovered(t,tag) | Propagated(e') — never a drop (I1); EffectBudgetExhausted on overrun (I4)\" , effects : \"declared by the policy (retry/alloc/io/cascade); bounded (RFC-0014 I3/I4)\" , explainable : Explainable :: PolicyRef , never_silent_property : \"yields Recovered or Propagated; never a drop (I1); Ok passes through unrecovered\" , } ,] ;",
+      "reason": "top-level `const MATRIX` — co-emit (ORACLE-R1 A4) only covers plain unsigned integer types (`u8`/`u16`/`u32`/`u64`/`u128`/`usize`); other types have no const item production and no faithful zero-arg-fn encoding (gap, never fabricate)",
+      "item_name": "MATRIX"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/guarantee_matrix.rs",
+      "line": 314,
+      "col": 1,
+      "category": "TestItem",
+      "rust_construct": "TestItem",
+      "snippet": "# [cfg (test)] mod tests { use super :: { Explainable , Fallibility , MATRIX } ; # [doc = \" The spec §3 lists 19 exported surface rows (counting recover as one). Verify coverage.\"] # [doc = \" Guard: adding or removing a row without updating this test makes it fail.\"] # [test] fn matrix_covers_all_spec_ops () { let expected_ops = [\"map\" , \"map_err\" , \"and_then\" , \"or_else\" , \"filter\" , \"inspect\" , \"inspect_err\" , \"ok_or\" , \"ok_or_else\" , \"ok\" , \"transpose\" , \"flatten\" , \"zip\" , \"unwrap_or\" , \"unwrap_or_else\" , \"unwrap_or_option\" , \"unwrap_or_else_option\" , \"propagate (?-style)\" , \"unwrap\" , \"expect\" , \"unwrap_err\" ,] ; for name in & expected_ops { assert ! (MATRIX . iter () . any (| r | r . op == * name || r . op . starts_with (name)) , \"matrix is missing op {name:?} (spec §3)\") ; } assert ! (MATRIX . iter () . any (| r | r . op . starts_with (\"recover\")) , \"matrix must have the recover bridge row (spec §3)\") ; assert_eq ! (MATRIX . len () , 22 , \"expected 22 rows (21 core incl. the two Option unwrap_or variants + 1 recover bridge)\") ; } # [doc = \" Every pure combinator row carries `Exact` (RFC-0016 C2 / VR-5).\"] # [doc = \" The `unwrap_or` family is `Declared` (I2). The recover bridge is `Inherited-...`.\"] # [doc = \" Guard: changing a pure combinator's tag to `Declared` or vice-versa makes this fail.\"] # [test] fn tags_match_spec_lattice () { for row in MATRIX { match row . op { \"unwrap_or\" | \"unwrap_or_else\" | \"unwrap_or_option\" | \"unwrap_or_else_option\" => { assert_eq ! (row . guarantee , \"Declared\" , \"{} must be Declared (I2/VR-5 — fallback substitution)\" , row . op) ; } op if op . starts_with (\"recover\") => { assert ! (row . guarantee . starts_with (\"Inherited\") , \"recover bridge tag must start with 'Inherited' (VR-5 — no launder); got {:?}\" , row . guarantee) ; } _ => { assert_eq ! (row . guarantee , \"Exact\" , \"{} must be Exact (pure combinator, RFC-0016 C2)\" , row . op) ; } } } } # [doc = \" Partial ops have a non-empty error_set (C1 — explicit refusal description).\"] # [doc = \" Total/combinatorial pure-combinator rows may have empty error_set.\"] # [doc = \" Guard: making a partial op's error_set empty makes this fail.\"] # [test] fn partial_ops_have_nonempty_error_set () { for row in MATRIX { if row . fallibility == Fallibility :: Partial { assert ! (! row . error_set . is_empty () , \"partial op {:?} must name its explicit refusal (C1)\" , row . op) ; } } } # [doc = \" Exactly the `unwrap_or` family carries `Declared` (not `Exact`).\"] # [doc = \" Guard: adding `Declared` to a non-default-recovery op makes this fail.\"] # [test] fn only_default_recovery_ops_are_declared () { let declared_ops : Vec < & str > = MATRIX . iter () . filter (| r | r . guarantee == \"Declared\") . map (| r | r . op) . collect () ; assert_eq ! (declared_ops , [\"unwrap_or\" , \"unwrap_or_else\" , \"unwrap_or_option\" , \"unwrap_or_else_option\"] , \"only the unwrap_or family (incl. Option variants) should be Declared (I2/VR-5)\") ; } # [doc = \" The `unwrap_or` family is marked `SubstitutedDefault` for EXPLAIN.\"] # [doc = \" Guard: changing the explainable field for unwrap_or makes this fail.\"] # [test] fn unwrap_or_family_is_explain_substituted_default () { for row in MATRIX { if row . op == \"unwrap_or\" || row . op == \"unwrap_or_else\" { assert_eq ! (row . explainable , Explainable :: SubstitutedDefault , \"{} must be SubstitutedDefault for EXPLAIN (spec §4/§5)\" , row . op) ; } } } # [doc = \" The `ok` combinator is the only one with `LossyConversion` EXPLAIN (spec §7-Q2).\"] # [doc = \" Guard: adding LossyConversion to a non-ok op makes this fail.\"] # [test] fn only_ok_is_lossy_conversion () { let lossy : Vec < & str > = MATRIX . iter () . filter (| r | r . explainable == Explainable :: LossyConversion) . map (| r | r . op) . collect () ; assert_eq ! (lossy , [\"ok\"] , \"only the 'ok' op is a flagged lossy conversion\") ; } # [doc = \" The partial accessors must all be marked `DiagnosticRefusal` for EXPLAIN.\"] # [doc = \" Guard: changing a partial op's explainable field makes this fail.\"] # [test] fn partial_ops_are_diagnostic_refusal () { for row in MATRIX { if row . fallibility == Fallibility :: Partial { assert_eq ! (row . explainable , Explainable :: DiagnosticRefusal , \"partial op {:?} must be DiagnosticRefusal for EXPLAIN (spec §5/C3)\" , row . op) ; } } } # [doc = \" Every row has a non-empty `never_silent_property` (C1 — the structural guarantee\"] # [doc = \" that no combinator silently drops an error must be stated per row).\"] # [doc = \" Guard: leaving never_silent_property empty on any row makes this fail.\"] # [test] fn every_row_states_never_silent_property () { for row in MATRIX { assert ! (! row . never_silent_property . is_empty () , \"row {:?} must state its never_silent_property (C1/I1)\" , row . op) ; } } # [doc = \" The recover bridge row is present and has `PolicyRef` EXPLAIN.\"] # [doc = \" Guard: removing the recover bridge or changing its explainable makes this fail.\"] # [test] fn recover_bridge_is_present_and_has_policy_ref () { let recover_row = MATRIX . iter () . find (| r | r . op . starts_with (\"recover\")) . expect (\"recover bridge must be in the matrix (spec §3/§4)\") ; assert_eq ! (recover_row . explainable , Explainable :: PolicyRef , \"recover bridge must be PolicyRef for EXPLAIN (RFC-0014 §4.4)\") ; assert ! (recover_row . error_set . contains (\"Recovered\") && recover_row . error_set . contains (\"Propagated\") , \"recover bridge error_set must name both Recovered and Propagated outcomes (I1)\") ; assert ! (recover_row . error_set . contains (\"never a drop\") , \"recover bridge error_set must explicitly state 'never a drop' (I1): {:?}\" , recover_row . error_set) ; } # [doc = \" The `?`-propagate row elaborates to a Match (RFC-0014 §4.3).\"] # [doc = \" Guard: changing its explainable field makes this fail.\"] # [test] fn propagate_is_match_elaboration () { let row = MATRIX . iter () . find (| r | r . op == \"propagate (?-style)\") . expect (\"propagate op must be in the matrix\") ; assert_eq ! (row . explainable , Explainable :: MatchElaboration , \"?-propagate must be MatchElaboration for EXPLAIN (RFC-0014 §4.3)\") ; } }",
+      "reason": "#[cfg(test)] item — out of scope for this PoC's transpilation surface (excluded from the expressible-fraction denominator, but recorded, never silently skipped)",
+      "item_name": "tests"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 1,
+      "col": 1,
+      "category": "InnerAttr",
+      "rust_construct": "InnerAttr",
+      "snippet": "# ! [forbid (unsafe_code)]",
+      "reason": "crate/file-level inner attributes (#![...]) are not transpiled (no nodule-header equivalent for these Rust-specific directives)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 78,
+      "col": 1,
+      "category": "ModuleDecl",
+      "rust_construct": "ModuleDecl",
+      "snippet": "pub mod combinators ;",
+      "reason": "external `mod foo;` declaration — file-linkage, not translatable library surface (Mycelium's nodule-per-file model makes the module tree implicit in the file layout; the sibling file transpiles as its own nodule). Excluded from the expressible-fraction denominator, recorded not dropped",
+      "item_name": "combinators"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 79,
+      "col": 1,
+      "category": "ModuleDecl",
+      "rust_construct": "ModuleDecl",
+      "snippet": "pub mod guarantee_matrix ;",
+      "reason": "external `mod foo;` declaration — file-linkage, not translatable library surface (Mycelium's nodule-per-file model makes the module tree implicit in the file layout; the sibling file transpiles as its own nodule). Excluded from the expressible-fraction denominator, recorded not dropped",
+      "item_name": "guarantee_matrix"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 84,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use mycelium_core :: PolicyRef ;",
+      "reason": "`use mycelium_core::PolicyRef` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 85,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use mycelium_std_core :: GuaranteeStrength ;",
+      "reason": "`use mycelium_std_core::GuaranteeStrength` — `mycelium_std_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 93,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use mycelium_std_recover :: { handle_classified , Outcome , RecoverOutcome , Resolution } ;",
+      "reason": "`use mycelium_std_recover::handle_classified` — `mycelium_std_recover` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_std_recover::Outcome` — `mycelium_std_recover` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_std_recover::RecoverOutcome` — `mycelium_std_recover` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_std_recover::Resolution` — `mycelium_std_recover` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::and_then` — `and_then` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::expect` — `expect` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::filter` — `filter` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::flatten` — `flatten` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::inspect` — `inspect` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::inspect_err` — `inspect_err` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::map` — `map` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::map_err` — `map_err` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::ok` — `ok` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::ok_or` — `ok_or` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::ok_or_else` — `ok_or_else` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::or_else` — `or_else` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::transpose` — `transpose` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap` — `unwrap` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_err` — `unwrap_err` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_or` — `unwrap_or` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_or_else` — `unwrap_or_else` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_or_else_option` — `unwrap_or_else_option` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::unwrap_or_option` — `unwrap_or_option` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 96,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "pub use combinators :: { and_then , expect , filter , flatten , inspect , inspect_err , map , map_err , ok , ok_or , ok_or_else , or_else , transpose , unwrap , unwrap_err , unwrap_or , unwrap_or_else , unwrap_or_else_option , unwrap_or_option , zip , RefusalRecord , SubstitutionRecord , } ;",
+      "reason": "`use combinators::zip` — `zip` is not among sibling `combinators`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:RefusalRecord,SubstitutionRecord"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-std-error/src/lib.rs",
+      "line": 125,
+      "col": 1,
+      "category": "TestItem",
+      "rust_construct": "TestItem",
+      "snippet": "# [cfg (test)] mod tests { # ! [doc = \" Integration tests over the crate root surface.\"] # ! [doc = \"\"] # ! [doc = \" The guarantee matrix data tests live in [`crate::guarantee_matrix`];\"] # ! [doc = \" the per-combinator behavioural tests live in [`crate::combinators`].\"] # ! [doc = \" This module tests the *crate-level contract*: the structural\"] # ! [doc = \" never-silent property, the guarantee matrix completeness, and the\"] # ! [doc = \" EXPLAIN records.\"] use crate :: guarantee_matrix :: { Explainable , Fallibility , MATRIX } ; # [doc = \" The guarantee matrix has no \\\"Dropped\\\" guarantee variant in any row.\"] # [doc = \" This is the structural I1 bound expressed over the matrix data.\"] # [doc = \" Guard: adding a \\\"Dropped\\\" entry to any row makes this fail.\"] # [test] fn matrix_has_no_dropped_outcome_in_any_row () { for row in MATRIX { assert ! (! row . error_set . to_lowercase () . contains (\"drop\") || row . error_set . contains (\"never a drop\") , \"row {:?} must not permit a dropped outcome (I1 / C1): {:?}\" , row . op , row . error_set) ; } } # [doc = \" The guarantee matrix has exactly one `Inherited` tag: the recover bridge.\"] # [doc = \" Guard: adding an Inherited tag to a non-bridge op makes this fail.\"] # [test] fn only_recover_bridge_has_inherited_tag () { let inherited : Vec < & str > = MATRIX . iter () . filter (| r | r . guarantee . starts_with (\"Inherited\")) . map (| r | r . op) . collect () ; assert_eq ! (inherited . len () , 1 , \"exactly one row should have an Inherited tag (the recover bridge)\") ; assert ! (inherited [0] . starts_with (\"recover\") , \"the Inherited tag must be on the recover bridge\") ; } # [doc = \" All total ops (Fallibility::Total) have no error set.\"] # [doc = \" Guard: adding error_set to a total op makes this fail.\"] # [test] fn total_ops_have_empty_error_set () { for row in MATRIX { if row . fallibility == Fallibility :: Total { assert ! (row . error_set . is_empty () , \"total op {:?} must have empty error_set\" , row . op) ; } } } # [doc = \" The `Declared` tag is used only for the unwrap_or family (downgrade rule — VR-5).\"] # [doc = \" Guard: any other op claiming `Declared` makes this fail.\"] # [test] fn declared_tag_only_on_default_recovery_ops () { for row in MATRIX { if row . guarantee == \"Declared\" { assert ! (matches ! (row . op , \"unwrap_or\" | \"unwrap_or_else\" | \"unwrap_or_option\" | \"unwrap_or_else_option\") , \"only unwrap_or* should be Declared; found {:?}\" , row . op) ; } } } # [doc = \" Partial ops must have non-empty error_set and DiagnosticRefusal EXPLAIN.\"] # [doc = \" Guard: a partial op without a named refusal makes this fail (C1 / C3).\"] # [test] fn partial_ops_are_explicit_and_explainable () { for row in MATRIX { if row . fallibility == Fallibility :: Partial { assert ! (! row . error_set . is_empty () , \"partial op {:?} must name its refusal (C1)\" , row . op) ; assert_eq ! (row . explainable , Explainable :: DiagnosticRefusal , \"partial op {:?} must be DiagnosticRefusal for EXPLAIN (C3)\" , row . op) ; } } } # [doc = \" The EXPLAIN column: every op that transforms/approximates/converts has a non-`NotApplicable`\"] # [doc = \" entry. This confirms the C3 obligation is not silently waived.\"] # [doc = \" Guard: zeroing out the explainable field for any non-pure op makes this fail.\"] # [test] fn explain_column_is_set_for_all_non_pure_ops () { let non_na : Vec < & str > = MATRIX . iter () . filter (| r | r . explainable != Explainable :: NotApplicable) . map (| r | r . op) . collect () ; assert ! (non_na . len () >= 7 , \"expected at least 7 ops with non-NotApplicable EXPLAIN; got {}: {:?}\" , non_na . len () , non_na) ; } }",
+      "reason": "#[cfg(test)] item — out of scope for this PoC's transpilation surface (excluded from the expressible-fraction denominator, but recorded, never silently skipped)",
+      "item_name": "tests"
+    }
+  ],
+  "category_counts": {
+    "DeriveAttr": 3,
+    "DeriveSatisfied": 9,
+    "GenericBound": 3,
+    "Impl": 1,
+    "Import": 23,
+    "InnerAttr": 1,
+    "ModuleDecl": 2,
+    "NamedFieldDrop": 3,
+    "Other": 8,
+    "TestItem": 3,
+    "WhereClause": 10
+  }
+}

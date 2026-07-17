@@ -1,0 +1,70 @@
+// nodule: std.error.guarantee_matrix
+// The `std.error` guarantee matrix encoded as **data** (RFC-0016 §4.5; spec §4).
+//
+// Every exported operation has one row in [`MATRIX`]. The matrix is the load-bearing C2
+// deliverable (RFC-0016 §4.1 C2 / VR-5): guarantee tags are asserted in tests, not
+// prose-only.
+//
+// # Guarantee tag justification
+// Pure combinators (`map`, `map_err`, `and_then`, `or_else`, `filter`, `ok_or`,
+// `ok_or_else`, `ok`, `transpose`, `flatten`, `zip`, `inspect`, `inspect_err`,
+// `propagate`-style, `unwrap`/`expect`/`unwrap_err`) are `Exact`: they are pure value
+// transformers with no accuracy/precision/probability semantics (RFC-0016 C2 "len-style"
+// case).
+//
+// `unwrap_or` / `unwrap_or_else` are `Declared`: the substituted default value is
+// *asserted*, not proven — RFC-0014 I2 ("recovery never fabricates or upgrades a
+// guarantee"). Downgrade is the rule (VR-5).
+//
+// `recover` (the RFC-0014 bridge) carries an **inherited** tag — it accepts whatever
+// honest tag the RFC-0014 policy attaches to a recovered value. This module never
+// launders that tag upward (VR-5 / I2). Because the tag varies with the policy, the
+// matrix records `"Inherited-from-policy (≤ Declared by I2)"` — the narrowest honest
+// characterisation without fabricating a concrete tag (G2/VR-5).
+//
+// # Fallibility / never-silent (C1)
+// No row permits a silent drop. Every combinator either:
+// - transforms the `Err`/`None` (it survives in the result), or
+// - explicitly re-propagates it, or
+// - explicitly recovers it (with an honest tag), or
+// - refuses loudly (partial accessors: `unwrap`/`expect`/`unwrap_err`).
+//
+// The one "lossy" op, `ok` (`Result→Option`), discards `ε` — **flagged as an explicit
+// lossy conversion** (EXPLAIN-able, C3; FLAG Q2 in spec §7), not an unflagged drop.
+// @summary: best-effort transpilation via mycelium-transpile (M-873). Declared,
+// unvalidated — no Mycelium parser/typechecker confirms this output; see the
+// accompanying .gap.json for every construct this pass could not express.
+nodule std.error.guarantee_matrix;
+
+// Fallibility classification for an exported op.
+type Fallibility = Total | Partial | Combinatorial;
+
+impl Show[Fallibility] for Fallibility {
+  fn render(x: Fallibility) => Bytes =
+    match x { Total => "Total", Partial => "Partial", Combinatorial => "Combinatorial" };
+};
+
+fn eq_Fallibility(a: Fallibility, b: Fallibility) => Binary{1} =
+  match a { Total => match b { Total => 0b1, _ => 0b0 }, Partial => match b { Partial => 0b1, _ => 0b0 }, Combinatorial => match b { Combinatorial => 0b1, _ => 0b0 } };
+
+// Whether an op has a C3 EXPLAIN obligation (selects / converts / approximates).
+type Explainable = NotApplicable | LossyConversion | PolicyRef | MatchElaboration | DiagnosticRefusal | SubstitutedDefault;
+
+impl Show[Explainable] for Explainable {
+  fn render(x: Explainable) => Bytes =
+    match x { NotApplicable => "NotApplicable", LossyConversion => "LossyConversion", PolicyRef => "PolicyRef", MatchElaboration => "MatchElaboration", DiagnosticRefusal => "DiagnosticRefusal", SubstitutedDefault => "SubstitutedDefault" };
+};
+
+fn eq_Explainable(a: Explainable, b: Explainable) => Binary{1} =
+  match a { NotApplicable => match b { NotApplicable => 0b1, _ => 0b0 }, LossyConversion => match b { LossyConversion => 0b1, _ => 0b0 }, PolicyRef => match b { PolicyRef => 0b1, _ => 0b0 }, MatchElaboration => match b { MatchElaboration => 0b1, _ => 0b0 }, DiagnosticRefusal => match b { DiagnosticRefusal => 0b1, _ => 0b0 }, SubstitutedDefault => match b { SubstitutedDefault => 0b1, _ => 0b0 } };
+
+// One row in the `std.error` guarantee matrix (RFC-0016 §4.5; spec §4).
+type MatrixRow = MatrixRow(Bytes, Bytes, Fallibility, Bytes, Bytes, Explainable, Bytes);
+
+impl Show[MatrixRow] for MatrixRow {
+  fn render(x: MatrixRow) => Bytes =
+    match x { MatrixRow(p0, p1, p2, p3, p4, p5, p6) => bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat("MatrixRow(", render(p0)), ", "), render(p1)), ", "), render(p2)), ", "), render(p3)), ", "), render(p4)), ", "), render(p5)), ", "), render(p6)), ")") };
+};
+
+fn eq_MatrixRow(a: MatrixRow, b: MatrixRow) => Binary{1} =
+    match a { MatrixRow(p0, p1, p2, p3, p4, p5, p6) => match b { MatrixRow(q0, q1, q2, q3, q4, q5, q6) => and(and(and(and(and(and(bytes_eq(p0, q0), bytes_eq(p1, q1)), eq_Fallibility(p2, q2)), bytes_eq(p3, q3)), bytes_eq(p4, q4)), eq_Explainable(p5, q5)), bytes_eq(p6, q6)) } };

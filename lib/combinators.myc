@@ -1,0 +1,61 @@
+// nodule: std.error.combinators
+// Pure combinators over `Option<T>` and `Result<T, E>` (spec §3).
+//
+// This module provides the errors-as-values ergonomics layer from `docs/spec/stdlib/error.md`:
+// every fallible op returns `Option`/`Result`; no combinator silently discards an error
+// (RFC-0014 I1 / RFC-0016 C1). The module is KC-3 (no new trusted code) — pure functions
+// over Rust's stdlib value sums, which serve as the Mycelium value model's `Option`/`Result`
+// in this Ring-2 Rust-first implementation.
+//
+// # Never-silent crux (C1 / I1)
+// Every combinator either:
+// - transforms the `Err`/`None` (it survives in the result sum), or
+// - re-propagates it (short-circuit or `?`), or
+// - explicitly recovers it (the caller must supply the recovery explicitly), or
+// - refuses loudly (`unwrap`/`expect`/`unwrap_err` — the named partial accessors).
+//
+// # EXPLAIN (C3)
+// The `ok` combinator is the one lossy conversion (FLAGGED per spec §7-Q2): `Err→None`
+// discards `ε`. It is documented prominently and is `EXPLAIN`-able in the guarantee
+// matrix. The partial accessors carry their diagnostic in the `RefusalRecord` (C3).
+// The `unwrap_or` family records its substitution via a `SubstitutionRecord` (C3/I2).
+//
+// # Guarantee tags (C2 / VR-5)
+// - All pure combinators: `Exact` (RFC-0016 C2 "len-style" case — pure value transforms).
+// - `unwrap_or` / `unwrap_or_else`: `Declared` (the substituted default is asserted, not
+//   proven — RFC-0014 I2). Downgrade to stay honest (VR-5).
+// - `recover` bridge: inherits the policy's honest tag; see spec §7-Q1 FLAG.
+// @summary: best-effort transpilation via mycelium-transpile (M-873). Declared,
+// unvalidated — no Mycelium parser/typechecker confirms this output; see the
+// accompanying .gap.json for every construct this pass could not express.
+nodule std.error.combinators;
+
+// The refusal record emitted when a named partial accessor (`unwrap`/`expect`/`unwrap_err`)
+// encounters the wrong variant. Carries the diagnostic as a message (C3 / spec §5/C3).
+//
+// The *mechanism* (abort vs escalate vs `std.diag` record) is co-designed with M-510/M-520
+// (spec §7-Q3). This structure fixes the C3 obligation: the refusal is explicit and
+// carries information. In this Rust-first implementation we panic with this record's
+// message; the final form waits on `diag`/`recover` (FLAG Q3).
+pub type RefusalRecord = RefusalRecord(Bytes, Bytes, Bytes);
+
+impl Show[RefusalRecord] for RefusalRecord {
+  fn render(x: RefusalRecord) => Bytes =
+    match x { RefusalRecord(p0, p1, p2) => bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat("RefusalRecord(", render(p0)), ", "), render(p1)), ", "), render(p2)), ")") };
+};
+
+fn eq_RefusalRecord(a: RefusalRecord, b: RefusalRecord) => Binary{1} =
+    match a { RefusalRecord(p0, p1, p2) => match b { RefusalRecord(q0, q1, q2) => and(and(bytes_eq(p0, q0), bytes_eq(p1, q1)), bytes_eq(p2, q2)) } };
+
+// The substitution record for `unwrap_or` / `unwrap_or_else`: records that a default was
+// substituted and that its guarantee is `Declared` (RFC-0014 I2 / VR-5). This is the C3
+// EXPLAIN artifact for the `Declared` rows in the guarantee matrix.
+pub type SubstitutionRecord = SubstitutionRecord(Bytes, Bytes);
+
+impl Show[SubstitutionRecord] for SubstitutionRecord {
+  fn render(x: SubstitutionRecord) => Bytes =
+    match x { SubstitutionRecord(p0, p1) => bytes_concat(bytes_concat(bytes_concat(bytes_concat("SubstitutionRecord(", render(p0)), ", "), render(p1)), ")") };
+};
+
+fn eq_SubstitutionRecord(a: SubstitutionRecord, b: SubstitutionRecord) => Binary{1} =
+    match a { SubstitutionRecord(p0, p1) => match b { SubstitutionRecord(q0, q1) => and(bytes_eq(p0, q0), bytes_eq(p1, q1)) } };
